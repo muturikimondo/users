@@ -1,0 +1,78 @@
+/* ============================================= */
+/* ========= GLASSMORPHIC PAGINATION =========== */
+/* ============================================= */
+
+.pagination .page-link {
+  border-radius: 30px;
+  margin: 0 4px;
+  padding: 0.4rem 0.8rem;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #0d6efd;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  transition: all 0.2s ease-in-out;
+}
+
+.pagination .page-link:hover {
+  background: rgba(255, 255, 255, 0.25);
+  color: #0a58ca;
+}
+
+.pagination .page-item.active .page-link {
+  background: linear-gradient(135deg, #0d6efd, #0a58ca);
+  color: #fff;
+  border-color: transparent;
+}
+
+/* ✅ Glassmorphic Green Button (Success Themed) */
+.btn-glass-success {
+  background: linear-gradient(to bottom right, rgba(2, 165, 84, 0.15), rgba(0, 99, 45, 0.1));
+  border: 1px solid rgba(2, 165, 84, 0.4);
+  color: #00632d;
+  font-weight: 600;
+  font-size: 1.1rem;
+  border-radius: 999px;
+  padding: 0.75rem 1.25rem;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.25s ease;
+}
+
+.btn-glass-success:hover {
+  background: rgba(2, 165, 84, 0.25);
+  color: #004d25;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+  transform: translateY(-1px);
+}
+
+.btn-glass-success:focus {
+  outline: none;
+  box-shadow: 0 0 0 0.25rem rgba(2, 165, 84, 0.35);
+}
+
+/* 🪄 Custom Gradient Button - 2 Column Width */
+.btn-gradient-register {
+  background: linear-gradient(135deg, #082f2e 0%, #c2aa8d 100%);
+  color: #fff;
+  font-weight: 600;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 999px;
+  padding: 0.75rem 1.25rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: all 0.25s ease;
+  backdrop-filter: blur(6px);
+}
+
+.btn-gradient-register:hover {
+  background: linear-gradient(135deg, #061d1c 0%, #a1886f 100%);
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  transform: translateY(-1px);
+}
+
+.btn-gradient-register:focus {
+  outline: none;
+  box-shadow: 0 0 0 0.25rem rgba(194, 170, 141, 0.5);
+}

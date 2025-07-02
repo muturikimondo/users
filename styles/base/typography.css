@@ -1,0 +1,44 @@
+/* ============================================= */
+/* ========== TYPOGRAPHY AND TEXT COLORS ========= */
+/* ============================================= */
+
+/* Modal glass elements */
+.modal-glass label,
+.modal-glass .form-text,
+.modal-glass .form-check-label,
+.modal-glass .text-muted {
+  color: rgba(255, 255, 255, 0.85); /* Lighter text for modals with glassmorphism */
+}
+
+/* Modal header styling */
+.modal-title {
+  font-family: 'Merriweather', serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.95); /* For glass backgrounds */
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  color: #082f2e;
+  font-family: 'Merriweather', serif;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
+}
+
+/* Muted dark text */
+.text-muted-dark {
+  color: rgba(0, 0, 0, 0.5); /* Muted, soft dark text for less emphasis */
+}
+
+/* Links */
+a {
+  color: inherit;
+  text-decoration: none; /* Remove underline by default */
+}
+
+a:hover, a:focus {
+  color: #02a554; /* Green hover color */
+  text-decoration: underline;
+}

@@ -1,0 +1,164 @@
+/* ============================================= */
+/* ================ MODAL GLASS ================ */
+/* ============================================= */
+
+.modal-glass {
+  background: linear-gradient(to bottom right, rgba(255,255,255,0.05), rgba(255,255,255,0.03));
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: #f8f9fa; /* Light text inside modal */
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  border-radius: 1rem;
+}
+
+/* Modal header styling */
+.modal-glass-header {
+  background: linear-gradient(to bottom right, rgba(255,255,255,0.05), rgba(255,255,255,0.03));
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  font-weight: 600;
+  color: #ffffff;
+  font-family: 'Merriweather', serif;
+  display: flex;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+}
+
+/* Modal title and icon styles */
+.modal-glass-header .modal-title {
+  color: #c2aa8d;
+  font-weight: 700;
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.modal-glass-header .modal-title i {
+  color: #c2aa8d;
+  font-size: 1.3rem;
+}
+
+/* Select fields inside modal */
+.modal-glass .form-select {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #f8f9fa;
+  border: 1px solid rgba(0,0,0,0.1);
+}
+
+/* Focused select */
+.modal-glass .form-select:focus {
+  border-color: #02a554;
+  box-shadow: 0 0 0 0.2rem rgba(2, 165, 84, 0.25);
+}
+
+/* Success button */
+.modal-glass .btn-success {
+  background-color: #02a554;
+  border: none;
+  color: #c2aa8d;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.modal-glass .btn-success:hover {
+  background-color: #02904a;
+}
+
+/* Outline secondary button */
+.modal-glass .btn-outline-secondary {
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #f8f9fa;
+  transition: all 0.3s ease;
+}
+
+.modal-glass .btn-outline-secondary:hover {
+  background-color: rgba(255,255,255,0.08);
+  color: #ffffff;
+}
+
+/* Close button tweaks if needed */
+.modal-glass .btn-close {
+  filter: brightness(120%);
+}
+
+/* Form Container */
+.profile-edit-container {
+  background: linear-gradient(to bottom right, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  color: #082f2e;
+}
+
+/* Input Groups */
+.profile-input-group {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-label {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #082f2e;
+}
+
+.profile-input {
+  padding: 0.75rem 1rem;
+  background-color: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 8px;
+  color: #fff;
+  transition: all 0.2s ease-in-out;
+}
+
+.profile-input:focus {
+  background-color: rgba(255,255,255,0.15);
+  border-color: #02a554;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(2, 165, 84, 0.3);
+}
+
+/* Password toggle switch */
+.profile-switch-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.profile-switch {
+  margin-right: 0.5rem;
+  accent-color: #02a554;
+}
+
+.profile-switch-label {
+  font-weight: 500;
+  color: #082f2e;
+}
+
+/* Submit button */
+.profile-submit-wrapper {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.profile-submit-btn {
+  background: linear-gradient(to right, #00632d, #02a554);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background 0.3s ease;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+}
+
+.profile-submit-btn:hover {
+  background: linear-gradient(to right, #004c23, #028a46);
+}
+

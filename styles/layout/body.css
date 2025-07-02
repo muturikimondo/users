@@ -1,0 +1,183 @@
+/* ============================================= */
+/* ============ BODY AND TYPOGRAPHY STYLING ====== */
+/* ============================================= */
+
+body {
+  /* Background styling */
+  background: linear-gradient(to right top, rgba(242, 225, 215, 0.8), rgba(194, 170, 141, 0.6), rgba(8, 47, 46, 0.8));
+  background-attachment: fixed;
+  background-size: cover;
+  
+  /* Typography */
+  color: #082f2e; /* Text color */
+  font-family: 'Inter', sans-serif; /* Font family */
+  font-weight: 400; /* Font weight */
+  font-size: 1rem; /* Default font size */
+  line-height: 1.6; /* Line height for better readability */
+  letter-spacing: 0.2px; /* Letter spacing */
+  -webkit-font-smoothing: antialiased; /* Ensures smoother font rendering on webkit browsers */
+  
+  /* Glassmorphism Effect */
+  backdrop-filter: blur(8px); /* Apply blur effect to background */
+  color: rgba(8, 47, 46, 0.9); /* Darker text for contrast */
+}
+
+/* Ensure smooth font consistency across elements */
+p, span, div, td, th {
+  color: inherit; /* Inherit color from body */
+  font-family: 'Inter', sans-serif; /* Ensure font consistency */
+  font-size: 1rem; /* Consistent font size */
+  line-height: 1.6; /* Line height for better readability */
+}
+
+/* ============================================= */
+/* ========== PARAGRAPH AND SPAN STYLING ======= */
+/* ============================================= */
+
+p {
+  margin-bottom: 1.2rem; /* Proper spacing between paragraphs */
+}
+
+span {
+  font-weight: 500; /* Slightly bold text for emphasis */
+  color: rgba(8, 47, 46, 0.8); /* Lightened text color */
+}
+
+/* ============================================= */
+/* =========== TABLE AND LIST ELEMENTS =========== */
+/* ============================================= */
+
+table, th, td {
+  background: rgba(255, 255, 255, 0.05); /* Transparent background */
+  color: inherit; /* Inherit text color */
+  border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border for table */
+}
+
+th {
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #082f2e;
+}
+
+td, th {
+  padding: 12px;
+  vertical-align: middle;
+  text-align: left;
+}
+
+/* ============================================= */
+/* =========== HEADER AND FOOTER STYLING ======== */
+/* ============================================= */
+
+h1, h2, h3, h4, h5, h6 {
+  color: #082f2e; /* Consistent heading color */
+  font-family: 'Merriweather', serif; /* Serif font for headings */
+  font-weight: 700; /* Bold headings for better emphasis */
+  margin-bottom: 0.5rem; /* Bottom margin for headings */
+  text-transform: capitalize; /* Capitalize heading text */
+}
+
+h1 {
+  font-size: 2.5rem;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+h3 {
+  font-size: 1.75rem;
+}
+
+h4 {
+  font-size: 1.5rem;
+}
+
+h5 {
+  font-size: 1.25rem;
+}
+
+h6 {
+  font-size: 1rem;
+}
+
+/* ============================================= */
+/* ========== BUTTON STYLING (GLASS) ============= */
+/* ============================================= */
+
+button, .btn {
+  background: rgba(255, 255, 255, 0.1); /* Subtle background for buttons */
+  border: none;
+  color: #082f2e; /* Button text color */
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  backdrop-filter: blur(6px); /* Glass effect */
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+button:hover, .btn:hover {
+  background: rgba(2, 165, 84, 0.2); /* Green hover effect */
+  transform: scale(1.05);
+}
+
+/* ============================================= */
+/* =========== LINK STYLING (GLASS) ============== */
+/* ============================================= */
+
+a {
+  color: inherit;
+  text-decoration: none; /* Remove underline by default */
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+a:hover {
+  color: #02a554; /* Green hover effect */
+  text-decoration: underline; /* Underline on hover */
+  transform: scale(1.05); /* Slight scale effect */
+}
+
+/* ============================================= */
+/* ============== TEXT MUTE AND LIGHTENING ====== */
+/* ============================================= */
+
+.text-muted {
+  color: rgba(8, 47, 46, 0.5); /* Light muted text for less emphasis */
+}
+
+.text-muted-dark {
+  color: rgba(0, 0, 0, 0.5); /* Muted dark text */
+}
+
+/* ============================================= */
+/* ============== FOOTER STYLING ================ */
+/* ============================================= */
+
+footer {
+  background: linear-gradient(to right top, #082f2e, #432d14);
+  color: #f2e1d7; /* Light text on dark background */
+  backdrop-filter: blur(6px); /* Glass effect */
+  padding: 1rem 0;
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.2);
+}
+
+footer a {
+  color: #f2e1d7;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+footer a:hover {
+  color: #02a554;
+}
+
+.social-icon {
+  font-size: 1.2rem;
+  color: #f2e1d7;
+  transition: transform 0.2s ease, color 0.3s ease;
+}
+
+.social-icon:hover {
+  color: #02a554;
+  transform: scale(1.15);
+}
