@@ -1,23 +1,79 @@
 <?php
-// Start session securely
+require_once __DIR__ . '/config.php'; // Ensure BASE_URL and BASE_PATH are available
+
+// Securely start session
 if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
-    session_regenerate_id(true); // Prevent session hijacking
+    session_regenerate_id(true);
 }
 
-// Initialize session after login
+/**
+ * Initialize session after successful login
+ */
 function initializeSession(array $user): void {
-    $_SESSION['user_id']        = $user['id'];
-    $_SESSION['username']       = $user['username'];
-    $_SESSION['role_id']        = $user['role_id'];
-    $_SESSION['role']           = getRoleName($user['role_id']);
-    $_SESSION['department_id']  = $user['department_id'];
-    $_SESSION['section_id']     = $user['section_id'];
+    global $conn;
 
-    cacheUserPermissions(); // Cache permissions upon login
+    $_SESSION['user_id']     = $user['id'];
+    $_SESSION['username']    = $user['username'];
+    $_SESSION['email']       = $user['email'];
+    $_SESSION['role_id']     = $user['role_id'];
+    $_SESSION['role']        = getRoleName($user['role_id']);
+    $_SESSION['status']      = $user['status'];
+    $_SESSION['login_count'] = $user['login_count'];
+    $_SESSION['last_login_at'] = $user['last_login_at'];
+
+    // Profile photo path (with fallback)
+    $photoFilename = $user['photo'] ?? '';
+    $photoPath = $photoFilename && file_exists(BASE_PATH . 'core/uploads/photos/' . $photoFilename)
+        ? BASE_URL . 'core/uploads/photos/' . $photoFilename
+        : BASE_URL . 'core/uploads/photos/default.png';
+    $_SESSION['user_photo'] = $photoPath;
+
+    // Load department and section names
+    $_SESSION['department'] = getDepartmentName($user['department_id'] ?? null);
+    $_SESSION['section']    = getSectionName($user['section_id'] ?? null);
+
+    // Cache permissions
+    cacheUserPermissions();
 }
 
-// Check user login status and optionally validate role
+/**
+ * Retrieve department name from DB
+ */
+function getDepartmentName(?int $departmentId): string {
+    global $conn;
+    if (!$departmentId) return 'Not assigned';
+
+    $stmt = $conn->prepare("SELECT name FROM departments WHERE id = ? LIMIT 1");
+    $stmt->bind_param("i", $departmentId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $name = $result->fetch_assoc()['name'] ?? 'Not assigned';
+    $stmt->close();
+
+    return $name;
+}
+
+/**
+ * Retrieve section name from DB
+ */
+function getSectionName(?int $sectionId): string {
+    global $conn;
+    if (!$sectionId) return 'Not assigned';
+
+    $stmt = $conn->prepare("SELECT name FROM sections WHERE id = ? LIMIT 1");
+    $stmt->bind_param("i", $sectionId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $name = $result->fetch_assoc()['name'] ?? 'Not assigned';
+    $stmt->close();
+
+    return $name;
+}
+
+/**
+ * Ensure user is logged in (and optionally has a specific role)
+ */
 function checkUserSession(string $requiredRole = null): void {
     if (!isset($_SESSION['user_id'])) {
         header('Location: ' . BASE_URL . 'auth/login.php');
@@ -30,7 +86,9 @@ function checkUserSession(string $requiredRole = null): void {
     }
 }
 
-// Get role name from DB
+/**
+ * Return role name from DB
+ */
 function getRoleName(int $roleId): string {
     global $conn;
     $stmt = $conn->prepare("SELECT name FROM roles WHERE id = ?");
@@ -41,23 +99,22 @@ function getRoleName(int $roleId): string {
     return $role['name'] ?? 'Unknown';
 }
 
-// Redirect based on role
+/**
+ * Return dashboard path based on role
+ */
 function getRedirectUrl(string $role): string {
-    switch ($role) {
-        case 'System Admin':
-            return BASE_URL . 'access/admin/dashboard.php';
-        case 'System Owner':
-            return BASE_URL . 'access/owner/dashboard.php';
-        case 'Section Supervisor':
-            return BASE_URL . 'access/supervisor/dashboard.php';
-        case 'Line User':
-            return BASE_URL . 'access/user/dashboard.php';
-        default:
-            return BASE_URL . 'auth/login.php';
-    }
+    return match ($role) {
+        'System Admin'       => BASE_URL . 'access/admin/dashboard.php',
+        'System Owner'       => BASE_URL . 'access/owner/dashboard.php',
+        'Section Supervisor' => BASE_URL . 'access/supervisor/dashboard.php',
+        'Line User'          => BASE_URL . 'access/user/dashboard.php',
+        default              => BASE_URL . 'auth/login.php',
+    };
 }
 
-// Destroy session and log out
+/**
+ * Destroy session and logout
+ */
 function destroySession(): void {
     session_unset();
     session_destroy();
@@ -65,10 +122,11 @@ function destroySession(): void {
     exit();
 }
 
-// Caches user's permissions (both role and user-based)
+/**
+ * Cache user permissions from role and direct assignment
+ */
 function cacheUserPermissions(): void {
     global $conn;
-
     $userId = $_SESSION['user_id'] ?? null;
     $roleId = $_SESSION['role_id'] ?? null;
 
@@ -76,7 +134,7 @@ function cacheUserPermissions(): void {
 
     $permissions = [];
 
-    // Role-based permissions
+    // Role permissions
     $stmt = $conn->prepare("
         SELECT p.name FROM permissions p
         JOIN role_permissions rp ON rp.permission_id = p.id
@@ -107,7 +165,9 @@ function cacheUserPermissions(): void {
     $_SESSION['cached_permissions'] = array_unique($permissions);
 }
 
-// Checks if user has a specific permission
+/**
+ * Check if current user has a given permission
+ */
 function userHasPermission(string $permissionName): bool {
     if (!isset($_SESSION['cached_permissions'])) {
         cacheUserPermissions();
@@ -122,73 +182,73 @@ function userHasPermission(string $permissionName): bool {
     return $hasPermission;
 }
 
-// Requires a permission to access the page
+/**
+ * Require a permission or redirect
+ */
 function requirePermission(string $permissionName): void {
     global $conn;
-
     $userId = $_SESSION['user_id'] ?? null;
 
     if (!$userId || !userHasPermission($permissionName)) {
-        // Log the denied access attempt
-        $action  = 'access_denied';
-        $details = "Permission '$permissionName' was denied.";
-        $stmt = $conn->prepare("INSERT INTO logs (user_id, action, details) VALUES (?, ?, ?)");
-        $stmt->bind_param("iss", $userId, $action, $details);
-        $stmt->execute();
-        $stmt->close();
-
-        // Flash message
+        logAction($userId, 'access_denied', "Permission '$permissionName' was denied.");
         $_SESSION['error_message'] = "You are not authorized to access this page.";
-
-        // Redirect to unauthorized page
         header('Location: ' . BASE_URL . 'unauthorized.php');
         exit();
     }
 }
 
-// Logs denied permission attempts for auditing
+/**
+ * Log unauthorized permission attempt
+ */
 function logPermissionDenied(int $userId, string $permissionName): void {
-    global $conn;
-    $action  = 'permission_denied';
-    $details = "User attempted: {$permissionName}";
+    logAction($userId, 'permission_denied', "User attempted: {$permissionName}");
+}
 
+/**
+ * General logging function
+ */
+function logAction(int $userId, string $action, string $details): void {
+    global $conn;
     $stmt = $conn->prepare("INSERT INTO logs (user_id, action, details) VALUES (?, ?, ?)");
     $stmt->bind_param("iss", $userId, $action, $details);
     $stmt->execute();
     $stmt->close();
 }
 
-// Clear cached permissions (e.g., on role change or logout)
+/**
+ * Clear permission cache from session
+ */
 function clearCachedPermissions(): void {
     unset($_SESSION['cached_permissions']);
 }
 
+/**
+ * Render session timer JavaScript
+ */
 function renderSessionTimerScript(int $elapsedSeconds): void {
     ?>
     <script>
-    document.addEventListener('DOMContentLoaded', function () {
+      document.addEventListener('DOMContentLoaded', () => {
         let seconds = <?= $elapsedSeconds ?>;
+        const timerElement = document.getElementById('session-timer');
 
-        function pad(num) {
-            return String(num).padStart(2, '0');
+        function pad(n) {
+          return String(n).padStart(2, '0');
         }
 
         function updateTimer() {
-            seconds++;
+          seconds++;
+          if (timerElement) {
             const hrs = pad(Math.floor(seconds / 3600));
             const mins = pad(Math.floor((seconds % 3600) / 60));
             const secs = pad(seconds % 60);
-            const timerElement = document.getElementById('session-timer');
-            if (timerElement) {
-                timerElement.textContent = `${hrs}:${mins}:${secs}`;
-            }
+            timerElement.textContent = `${hrs}:${mins}:${secs}`;
+          }
         }
 
         updateTimer();
         setInterval(updateTimer, 1000);
-    });
+      });
     </script>
     <?php
 }
-
-

@@ -1,8 +1,8 @@
-// coop/admin/js/users/userActions.js
 import { showToast } from '../utils/toasts.js';
 
 export function setupUserActions() {
-  $(document).on('click', '.reject-user-btn', function () {
+  // Delegate reject button click ONCE at document level
+  $(document).off('click.rejectUser').on('click.rejectUser', '.reject-user-btn', function () {
     const $row = $(this).closest('tr');
     const userId = $row.data('user-id');
 

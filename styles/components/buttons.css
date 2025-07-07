@@ -1,31 +1,8 @@
-/* ============================================= */
-/* ========= GLASSMORPHIC PAGINATION =========== */
-/* ============================================= */
+/* ============================== */
+/* === Glassmorphic Buttons ===== */
+/* ============================== */
 
-.pagination .page-link {
-  border-radius: 30px;
-  margin: 0 4px;
-  padding: 0.4rem 0.8rem;
-  background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(6px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #0d6efd;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
-  transition: all 0.2s ease-in-out;
-}
-
-.pagination .page-link:hover {
-  background: rgba(255, 255, 255, 0.25);
-  color: #0a58ca;
-}
-
-.pagination .page-item.active .page-link {
-  background: linear-gradient(135deg, #0d6efd, #0a58ca);
-  color: #fff;
-  border-color: transparent;
-}
-
-/* ✅ Glassmorphic Green Button (Success Themed) */
+/* ✅ Primary Glassmorphic Success Button */
 .btn-glass-success {
   background: linear-gradient(to bottom right, rgba(2, 165, 84, 0.15), rgba(0, 99, 45, 0.1));
   border: 1px solid rgba(2, 165, 84, 0.4);
@@ -51,7 +28,7 @@
   box-shadow: 0 0 0 0.25rem rgba(2, 165, 84, 0.35);
 }
 
-/* 🪄 Custom Gradient Button - 2 Column Width */
+/* 🪄 Gradient Registration Button */
 .btn-gradient-register {
   background: linear-gradient(135deg, #082f2e 0%, #c2aa8d 100%);
   color: #fff;
@@ -75,4 +52,73 @@
 .btn-gradient-register:focus {
   outline: none;
   box-shadow: 0 0 0 0.25rem rgba(194, 170, 141, 0.5);
+}
+
+/* ============================== */
+/* === Glassmorphic Pagination == */
+/* ============================== */
+.pagination .page-link {
+  border-radius: 30px;
+  margin: 0 4px;
+  padding: 0.4rem 0.8rem;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #0d6efd;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  transition: all 0.2s ease-in-out;
+}
+
+.pagination .page-link:hover {
+  background: rgba(255, 255, 255, 0.25);
+  color: #0a58ca;
+}
+
+.pagination .page-item.active .page-link {
+  background: linear-gradient(135deg, #0d6efd, #0a58ca);
+  color: #fff;
+  border-color: transparent;
+}
+
+/* ============================== */
+/* === Icon-Only Action Buttons == */
+/* ============================== */
+
+.btn-icon-glass {
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(6px);
+  padding: 0.5rem;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease-in-out;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-icon-glass i {
+  font-size: 1.5rem;
+  transition: transform 0.2s ease-in-out;
+}
+
+/* ✅ Approve (Green) */
+.approve-user-btn i {
+  color: #28a745;
+}
+
+/* ❌ Reject (Red) */
+.reject-user-btn i {
+  color: #dc3545;
+}
+
+/* Hover Effects for icon-only buttons */
+.btn-icon-glass:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
+}
+
+.btn-icon-glass:hover i {
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
 }

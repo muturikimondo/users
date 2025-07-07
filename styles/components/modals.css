@@ -1,129 +1,100 @@
 /* ============================================= */
-/* ================ MODAL GLASS ================ */
+/* ========== GLASSMORPHIC MODAL BASE ========== */
 /* ============================================= */
 
 .modal-glass {
-  background: linear-gradient(to bottom right, rgba(255,255,255,0.05), rgba(255,255,255,0.03));
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255,255,255,0.1);
-  color: #f8f9fa; /* Light text inside modal */
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(to bottom right, rgba(20, 20, 20, 0.65), rgba(30, 30, 30, 0.55));
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #f5f5f5;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
   border-radius: 1rem;
+  overflow: hidden;
 }
 
-/* Modal header styling */
+/* ============================================= */
+/* =============== MODAL HEADER ================ */
+/* ============================================= */
+
 .modal-glass-header {
-  background: linear-gradient(to bottom right, rgba(255,255,255,0.05), rgba(255,255,255,0.03));
+  background: linear-gradient(to bottom right, rgba(24, 26, 27, 0.85), rgba(32, 35, 37, 0.75));
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  font-weight: 600;
-  color: #ffffff;
   font-family: 'Merriweather', serif;
+  font-weight: 600;
+  color: #f5f5f5;
+  padding: 1rem 1.5rem;
   display: flex;
   align-items: center;
-  padding: 1rem 1.5rem;
   border-top-left-radius: 1rem;
   border-top-right-radius: 1rem;
+  justify-content: space-between;
 }
 
-/* Modal title and icon styles */
 .modal-glass-header .modal-title {
-  color: #c2aa8d;
-  font-weight: 700;
+  color: #f1f1f1;
   font-size: 1.25rem;
+  font-weight: 700;
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
 .modal-glass-header .modal-title i {
-  color: #c2aa8d;
   font-size: 1.3rem;
+  color: #02a554;
 }
 
-/* Select fields inside modal */
-.modal-glass .form-select {
-  background-color: rgba(255, 255, 255, 0.05);
+/* ✖️ Close Button */
+.modal-glass .btn-close {
+  background-color: #f2e1d7;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: #f8f9fa;
-  border: 1px solid rgba(0,0,0,0.1);
-}
-
-/* Focused select */
-.modal-glass .form-select:focus {
-  border-color: #02a554;
-  box-shadow: 0 0 0 0.2rem rgba(2, 165, 84, 0.25);
-}
-
-/* Success button */
-.modal-glass .btn-success {
-  background-color: #02a554;
-  border: none;
-  color: #c2aa8d;
-  font-weight: 600;
+  opacity: 1;
   transition: background-color 0.3s ease;
 }
 
-.modal-glass .btn-success:hover {
-  background-color: #02904a;
-}
-
-/* Outline secondary button */
-.modal-glass .btn-outline-secondary {
-  border-color: rgba(255, 255, 255, 0.2);
-  color: #f8f9fa;
-  transition: all 0.3s ease;
-}
-
-.modal-glass .btn-outline-secondary:hover {
-  background-color: rgba(255,255,255,0.08);
+.modal-glass .btn-close:hover {
+  background-color: #c2aa8d;
   color: #ffffff;
 }
 
-/* Close button tweaks if needed */
-.modal-glass .btn-close {
-  filter: brightness(120%);
+/* ============================================= */
+/* =============== FORM FIELDS ================= */
+/* ============================================= */
+
+.modal-glass .form-select,
+.profile-input {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #f1f1f1;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
 }
 
-/* Form Container */
-.profile-edit-container {
-  background: linear-gradient(to bottom right, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 16px;
-  padding: 2rem;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-  color: #082f2e;
+.modal-glass .form-select:focus,
+.profile-input:focus {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: #02a554;
+  box-shadow: 0 0 0 0.25rem rgba(2, 165, 84, 0.3);
+  outline: none;
 }
 
-/* Input Groups */
-.profile-input-group {
-  margin-bottom: 1.5rem;
-  display: flex;
-  flex-direction: column;
-}
-
+/* Labels */
 .profile-label {
   margin-bottom: 0.5rem;
-  font-weight: 500;
-  color: #082f2e;
+  font-weight: 600;
+  color: #e0dfdc;
 }
 
-.profile-input {
-  padding: 0.75rem 1rem;
-  background-color: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.2);
-  border-radius: 8px;
-  color: #fff;
-  transition: all 0.2s ease-in-out;
-}
-
-.profile-input:focus {
-  background-color: rgba(255,255,255,0.15);
-  border-color: #02a554;
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(2, 165, 84, 0.3);
-}
-
-/* Password toggle switch */
+/* Toggle Switch */
 .profile-switch-group {
   display: flex;
   align-items: center;
@@ -137,28 +108,32 @@
 
 .profile-switch-label {
   font-weight: 500;
-  color: #082f2e;
+  color: #e0dfdc;
 }
 
-/* Submit button */
+/* ============================================= */
+/* ============ FORM CONTAINER WRAP ============ */
+/* ============================================= */
+
+.profile-edit-container {
+  background: linear-gradient(to bottom right, rgba(255,255,255,0.08), rgba(255,255,255,0.05));
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 1rem;
+  padding: 2rem;
+  color: #eaeaea;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.3);
+}
+
+/* Input group spacing */
+.profile-input-group {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Submit wrapper */
 .profile-submit-wrapper {
   text-align: center;
   margin-top: 2rem;
 }
-
-.profile-submit-btn {
-  background: linear-gradient(to right, #00632d, #02a554);
-  color: white;
-  border: none;
-  border-radius: 50px;
-  padding: 0.75rem 2rem;
-  font-size: 1rem;
-  font-weight: 600;
-  transition: background 0.3s ease;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-}
-
-.profile-submit-btn:hover {
-  background: linear-gradient(to right, #004c23, #028a46);
-}
-

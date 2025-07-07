@@ -1,11 +1,12 @@
 <?php
-// This modal should be included after DB connection is already available.
 $roles = [];
 $role_stmt = $conn->prepare("SELECT id, name, description FROM roles ORDER BY name ASC");
 $role_stmt->execute();
 $role_result = $role_stmt->get_result();
-while ($row = $role_result->fetch_assoc()) {
+if ($role_result && $role_result->num_rows > 0) {
+  while ($row = $role_result->fetch_assoc()) {
     $roles[] = $row;
+  }
 }
 ?>
 
@@ -15,8 +16,8 @@ while ($row = $role_result->fetch_assoc()) {
 
       <!-- Modal Header -->
       <div class="modal-header modal-glass-header text-white rounded-top-4">
-        <h5 class="modal-title" id="approveUserModalLabel">
-          <i class="bi bi-person-check-fill me-2"></i> Approve User & Assign Role
+        <h5 class="modal-title d-flex align-items-center gap-2" id="approveUserModalLabel">
+          <i class="bi bi-person-check-fill"></i> Approve User & Assign Role
         </h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
@@ -25,32 +26,39 @@ while ($row = $role_result->fetch_assoc()) {
       <form id="approveUserForm">
         <div class="modal-body">
 
+          <!-- Hidden User ID -->
           <input type="hidden" id="approveUserId" name="user_id">
 
           <!-- Role Selector -->
-          <div class="mb-3">
-            <label for="role_id" class="form-label fw-semibold text-dark">
-              <i class="bi bi-award me-1"></i> Select Role
+          <div class="profile-input-group">
+            <label for="role_id" class="profile-label d-flex align-items-center gap-2">
+              <i class="bi bi-award"></i> Select Role
             </label>
-            <select id="role_id" name="role_id" class="form-select select2 rounded-pill" required data-placeholder="Choose role">
+            <select 
+              id="role_id" 
+              name="role_id" 
+              class="form-select select2 profile-input" 
+              required 
+              data-placeholder="Choose role"
+            >
               <option></option>
               <?php foreach ($roles as $role): ?>
-                <option value="<?= $role['id'] ?>">
+                <option value="<?= (int) $role['id'] ?>">
                   <?= htmlspecialchars($role['name']) ?> — <?= htmlspecialchars($role['description']) ?>
                 </option>
               <?php endforeach; ?>
             </select>
-            <div class="form-text text-muted mt-1">
-              Assign the role this user should assume upon approval.
+            <div class="form-text mt-1 text-light opacity-75">
+              Assign the most appropriate role for this user’s responsibilities.
             </div>
           </div>
 
         </div>
 
         <!-- Modal Footer -->
-        <div class="modal-footer border-top-0">
-          <button type="submit" class="btn btn-success px-4 rounded-pill shadow-sm">
-            <i class="bi bi-check-circle me-1"></i> Approve User
+        <div class="modal-footer border-top-0 d-flex justify-content-end gap-2">
+          <button type="submit" class="profile-submit-btn d-flex align-items-center gap-2">
+            <i class="bi bi-check-circle-fill"></i> Approve User
           </button>
           <button type="button" class="btn btn-outline-secondary px-4 rounded-pill" data-bs-dismiss="modal">
             Cancel

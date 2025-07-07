@@ -1,7 +1,7 @@
 <!-- templates/footer.php -->
 <footer id="appFooter" class="footer-glass text-center py-4 mt-auto">
   <div class="container">
-    
+
     <!-- Top Section: Brand & Rights -->
     <div class="row">
       <div class="col-12">
@@ -42,5 +42,18 @@
   </div>
 </footer>
 
-<!-- Bootstrap JS Bundle -->
+<!-- JS Libraries -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
+
+<!-- Global BASE_URL JS Definition -->
+
+
+<!-- Page-Specific JS Modules (to be injected from page) -->
+<?php if (isset($pageScripts) && is_array($pageScripts)) : ?>
+  <?php foreach ($pageScripts as $script) : ?>
+    <script type="module" src="<?= asset($script) ?>"></script>
+  <?php endforeach; ?>
+<?php endif; ?>

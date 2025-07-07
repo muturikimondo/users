@@ -1,9 +1,9 @@
-// coop/admin/js/users/approveUserModal.js
 import { showToast } from '../utils/toasts.js';
 
 export function setupApproveUserModal() {
   const $modal = $('#approveUserModal');
 
+  // Initialize Select2 once
   if (!$modal.hasClass('select2-initialized')) {
     $modal.find('.select2').select2({
       dropdownParent: $modal,
@@ -17,20 +17,22 @@ export function setupApproveUserModal() {
     $modal.addClass('select2-initialized');
   }
 
-  $(document).on('click', '.approve-user-btn', function () {
+  // Delegate approve button click ONCE at document level
+  $(document).off('click.approveUser').on('click.approveUser', '.approve-user-btn', function () {
     const userId = $(this).closest('tr').data('user-id');
     $('#approveUserId').val(userId);
-    $('#approveUserModal').modal('show');
+    $modal.modal('show');
   });
 
-  $('#approveUserForm').on('submit', function (e) {
+  // Bind form submit ONCE
+  $('#approveUserForm').off('submit').on('submit', function (e) {
     e.preventDefault();
     const formData = $(this).serialize();
     const userId = $('#approveUserId').val();
 
     $.post(`${BASE_URL}admin/ajax/users/approve.php`, formData, function (response) {
       if (response.status === 'success') {
-        $('#approveUserModal').modal('hide');
+        $modal.modal('hide');
         showToast('success', 'User approved and role assigned!');
 
         const $row = $(`tr[data-user-id="${userId}"]`);

@@ -1,8 +1,8 @@
 /* ============================= */
-/* === Custom Select2 + Glassmorphism Styling === */
+/* === Custom Select2 Styling === */
 /* ============================= */
 
-/* Harmonized Select2 Container */
+/* 🧱 Base Container */
 .select2-container {
   width: 100% !important;
   font-family: "Inter", "Segoe UI", sans-serif;
@@ -10,10 +10,10 @@
   position: relative;
 }
 
-/* Harmonized Selection Box */
+/* 📦 Main Single-Select Box */
 .select2-container .select2-selection--single {
-  padding-left: 3.5rem;  /* Space for the icon */
-  padding-right: 1.5rem; /* Space for the dropdown arrow */
+  padding-left: 3.5rem;
+  padding-right: 1.5rem;
   padding-top: 1rem;
   padding-bottom: 1rem;
   height: 3.5rem;
@@ -23,26 +23,37 @@
   backdrop-filter: blur(8px);
   border-radius: 0.75rem;
   border: 1px solid rgba(255, 255, 255, 0.15);
-  color: #082f2e;
+  color: #fff;
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
   width: 100%;
 }
 
-/* Focus & Hover States */
+/* ✅ Selected Option Text */
+.select2-container .select2-selection--single .select2-selection__rendered {
+  color: #fff !important;
+  padding-left: 0.25rem;
+  font-weight: 500;
+  font-size: 1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 🌟 Focus and Hover States */
 .select2-container .select2-selection--single:hover,
 .select2-container--focus .select2-selection--single {
   border-color: #02a554;
   box-shadow: 0 0 0 0.25rem rgba(2, 165, 84, 0.25);
 }
 
-/* Dropdown Arrow */
+/* 🔻 Dropdown Arrow */
 .select2-container .select2-selection__arrow {
   background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.03));
   height: 100%;
   right: 0.75rem;
   width: 1.5rem;
   top: 0.75rem;
-  border-left: 1px solid rgba(0, 0, 0, 0.1);
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 0 0.75rem 0.75rem 0;
   display: flex;
   justify-content: center;
@@ -50,17 +61,17 @@
   transition: transform 0.2s ease;
 }
 
-/* Dropdown Menu */
+/* ⬇️ Dropdown Panel */
 .select2-container .select2-dropdown {
   background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.03)) !important;
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 1rem;
   box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15);
   padding: 0.5rem 0.75rem;
   z-index: 1060;
   width: 40% !important;
-  max-width: 40%;
+  max-width: 100%;
   box-sizing: border-box;
   animation: glassFadeIn 0.25s ease forwards;
   transition: box-shadow 0.3s ease;
@@ -72,13 +83,13 @@
   max-height: 300px;
 }
 
-/* Search Box Inside Dropdown */
+/* 🔍 Search Field Inside Dropdown */
 .select2-container .select2-search--dropdown .select2-search__field {
-  background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.03)) !important;
+  background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(6px);
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 0.5rem;
-  color: #082f2e;
+  color: #fff;
   padding: 0.5rem 0.75rem;
   margin: 0.5rem;
   width: calc(100% - 1rem);
@@ -86,36 +97,41 @@
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Option Items */
+/* 🧾 Option Items */
 .select2-container .select2-results__option {
   background: transparent;
-  color: #082f2e;
+  color: #fff;
   padding: 10px 18px;
   margin: 4px 12px;
   border-radius: 8px;
-  font-weight: 400;
+  font-weight: 500;
   transition: all 0.2s ease;
 }
 
-/* Hovered Option */
 .select2-container .select2-results__option--highlighted[aria-selected] {
-  background: linear-gradient(to bottom right, rgba(2,165,84,0.2), rgba(2,165,84,0.1)) !important;
-  backdrop-filter: blur(6px);
-  color: #004d25 !important;
+  background: linear-gradient(to bottom right, #b7f1d4, #d2f8e6) !important;
+  backdrop-filter: blur(4px);
+  color: #014122 !important;
   font-weight: 600;
-  border: 1px solid rgba(2,165,84,0.2);
-  box-shadow: 0 2px 6px rgba(2,165,84,0.1);
+  border: 1px solid #02a554;
+  box-shadow: 0 2px 6px rgba(2, 165, 84, 0.2);
   transform: scale(1.03);
 }
 
-/* Selected Option */
 .select2-container .select2-results__option[aria-selected="true"] {
-  background-color: rgba(2, 165, 84, 0.15);
-  color: #00632d;
-  font-weight: 600;
+  background-color: #a9ebc9 !important;
+  color: #004d25;
+  font-weight: 700;
+  border-left: 4px solid #02a554;
 }
 
-/* Dropdown Animation */
+/* ⛅ Placeholder Text */
+.select2-container .select2-selection__placeholder {
+  color: rgba(255, 255, 255, 0.6);
+  font-style: italic;
+}
+
+/* 🎬 Animation */
 @keyframes glassFadeIn {
   from {
     opacity: 0;

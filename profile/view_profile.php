@@ -107,99 +107,12 @@ $user = [
   </div>
 </div>
 
-<!-- Modal: Update Photo -->
-<div class="modal fade" id="updatePhotoModal" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered">
-    <form action="<?= BASE_URL ?>profile/update_photo.php" method="POST" enctype="multipart/form-data" class="modal-content modal-glass">
-      <div class="modal-header modal-glass-header">
-        <h5 class="modal-title"><i class="bi bi-camera me-2"></i>Update Profile Photo</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body text-center">
-        <input type="file" name="photo" accept="image/*" class="form-control glass-file" required>
-        <div class="form-text mt-2 small">Only JPG, PNG. Max 2MB.</div>
-      </div>
-      <div class="modal-footer border-0">
-        <button type="submit" class="btn btn-success rounded-pill px-4">
-          <i class="bi bi-check-circle me-2"></i> Save Photo
-        </button>
-      </div>
-    </form>
-  </div>
-</div>
-
-<!-- Modal: Edit Profile -->
-<div class="modal fade" id="editProfileModal" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content modal-glass p-4">
-      <div class="modal-header modal-glass-header">
-        <h5 class="modal-title"><i class="bi bi-pencil-square me-2"></i>Edit Profile</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body">
-        
-<form id="editProfileForm" method="POST" action="<?= BASE_URL ?>profile/update_profile.php" enctype="multipart/form-data" class="profile-edit-container">
-
-  <!-- Name -->
-  <div class="profile-input-group">
-    <label for="username" class="profile-label">Name</label>
-    <input type="text" id="username" name="username" class="profile-input" value="<?= htmlspecialchars($user['username']) ?>" required>
-  </div>
-
-  <!-- Email -->
-  <div class="profile-input-group">
-    <label for="email" class="profile-label">Email</label>
-    <input type="email" id="email" name="email" class="profile-input" value="<?= htmlspecialchars($user['email']) ?>" required>
-  </div>
-
-  <!-- Department -->
-  <div class="profile-input-group">
-    <label for="department" class="profile-label">Department</label>
-    <input type="text" id="department" name="department" class="profile-input" value="<?= htmlspecialchars($user['department']) ?>">
-  </div>
-
-  <!-- Change Password Toggle -->
-  <div class="profile-switch-group">
-    <input type="checkbox" id="togglePassword" class="profile-switch">
-    <label for="togglePassword" class="profile-switch-label">Change Password</label>
-  </div>
-
-  <!-- Password Fields -->
-  <div class="profile-password-section" id="passwordFields" style="display: none;">
-    <div class="profile-input-group">
-      <label for="password" class="profile-label">New Password</label>
-      <input type="password" id="password" name="password" class="profile-input">
-    </div>
-    <div class="profile-input-group">
-      <label for="confirm_password" class="profile-label">Confirm Password</label>
-      <input type="password" id="confirm_password" name="confirm_password" class="profile-input">
-    </div>
-  </div>
-
-  <!-- Submit Button -->
-  <div class="profile-submit-wrapper">
-    <button type="submit" class="profile-submit-btn">
-      <i class="bi bi-check-circle me-2"></i> Save Changes
-    </button>
-  </div>
-
-</form>
-
-
-
-
-        <div id="profileFeedback" class="text-center mt-3"></div>
-      </div>
-    </div>
-  </div>
-</div>
+<!-- Include modal -->
+<?php include BASE_PATH . 'templates/modals/edit_profile.php'; ?>
 
 <!-- JS -->
-<script>
-  const toggle = document.getElementById('togglePassword');
-  const fields = document.getElementById('passwordFields');
-  toggle.addEventListener('change', () => {
-    fields.style.display = toggle.checked ? 'flex' : 'none';
-  });
-</script>
+<script type="module" src="<?= asset('profile/js/index.js') ?>"></script>
+
+
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

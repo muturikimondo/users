@@ -1,10 +1,12 @@
-// coop/profile/js/index.js
-// ✅ Main entry point for profile page JavaScript
+import { initSelect2 } from './users/select2.js';
+import { setupTogglePassword } from './users/togglePassword.js';
+import { setupPhotoPreview } from './users/photoPreview.js';
+import { setupDependentSections } from './users/getSectionsByDepartment.js';
 
-import './photoPreview.js';
-import './togglePassword.js';
-import './submitProfile.js';
 
-// Optional: Add more modules here as needed
-// import './formValidation.js';
-// import './flashMessages.js';
+document.addEventListener('DOMContentLoaded', () => {
+  initSelect2('.select2');
+  setupTogglePassword();
+  setupPhotoPreview();
+  setupDependentSections();
+});

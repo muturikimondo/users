@@ -1,5 +1,5 @@
 /* ============================== */
-/* === Glassmorphic Inputs & Floating Labels === */
+/* === Glassmorphic Form Controls === */
 /* ============================== */
 
 /* 📌 Floating icon inside form inputs */
@@ -12,17 +12,17 @@
   color: var(--bs-primary);
   pointer-events: none;
   z-index: 2;
-  margin-right: 0.5rem;
 }
 
-/* ⬅️ Add left padding when icon is used */
+/* ➕ Padding when icon is used */
 .icon-input {
   padding-left: 2.5rem !important;
 }
 
-/* 🧾 Base style for inputs */
-.form-control,
-.form-select {
+/* 🧾 Base style for inputs, selects (not select2), textareas */
+input.form-control,
+textarea.form-control,
+select.form-select {
   border-radius: 0.75rem;
   font-size: 1rem;
   font-weight: 500;
@@ -33,54 +33,49 @@
   border: 1px solid rgba(255, 255, 255, 0.15);
   color: #082f2e;
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+  padding: 0.75rem 1rem;
 }
 
-/* 🎯 Hover & focus states for inputs */
-.form-control.icon-input:hover,
-.form-select:hover {
-  border-color: #02a554;
-  box-shadow: 0 0 0 0.2rem rgba(2, 165, 84, 0.15);
-}
-
-.form-control.icon-input:focus,
-.form-select:focus {
+/* 🖱️ Hover & Focus */
+input.form-control:hover,
+textarea.form-control:hover,
+select.form-select:hover,
+input.form-control:focus,
+textarea.form-control:focus,
+select.form-select:focus {
   border-color: #02a554;
   outline: none;
   box-shadow: 0 0 0 0.25rem rgba(2, 165, 84, 0.25);
   background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.05));
 }
 
-/* 💬 Placeholder text */
+/* 💬 Placeholder styling */
 .form-control::placeholder {
   color: rgba(8, 47, 46, 0.4);
   opacity: 1;
 }
 
-/* 🏷️ Label inside floating input */
+/* 🏷️ Label for floating inputs */
 .form-floating > label {
   padding-left: 2.5rem;
-  background: transparent; /* Corrected from 'background-color: none' */
+  background: transparent;
   color: #666;
   font-weight: 500;
 }
 
-/* 💠 Label override for icon-inputs */
+/* Floating label override for icon inputs and file inputs */
 .form-floating > .form-control.icon-input ~ label,
 .form-floating > input[type="file"] ~ label {
-  background: transparent;
   color: #082f2e;
-  font-weight: 500;
 }
 
-/* 🧾 Optional: File input field spacing and sizing */
-input[type="file"].form-control,
-input[type="file"].glass-file {
+/* 🎞️ File Input */
+input[type="file"].form-control {
   padding: 0.6rem 1rem;
-  height: auto;
   font-size: 0.95rem;
+  height: auto;
 }
 
-/* 🌫️ "Choose File" button inside input[type="file"] */
 input[type="file"]::file-selector-button {
   background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
   backdrop-filter: blur(6px);
@@ -94,7 +89,6 @@ input[type="file"]::file-selector-button {
   font-family: "Inter", "Segoe UI", sans-serif;
 }
 
-/* 🖱️ Hover effect for "Choose File" button */
 input[type="file"]::file-selector-button:hover {
   background-color: rgba(2, 165, 84, 0.1);
   border-color: #02a554;
@@ -102,13 +96,88 @@ input[type="file"]::file-selector-button:hover {
   cursor: pointer;
 }
 
-/* 🧼 Reset default file button in Firefox (MS browsers) */
-input[type="file"]::-ms-browse {
-  background: none;
-  border: none;
+/* ✅ Checkbox & Radio Buttons */
+.form-check-input {
+  accent-color: #02a554;
+  width: 1.2rem;
+  height: 1.2rem;
+  margin-top: 0.3rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  transition: all 0.2s ease;
 }
 
-/* 🧪 Optional: Hide file name preview */
+.form-check-input:focus {
+  box-shadow: 0 0 0 0.2rem rgba(2, 165, 84, 0.25);
+}
+
+.form-check-label {
+  color: #082f2e;
+  font-weight: 500;
+  margin-left: 0.5rem;
+  font-size: 0.95rem;
+}
+
+/* 📅 Date and Time Pickers */
+input[type="date"],
+input[type="datetime-local"],
+input[type="time"],
+input[type="month"] {
+  appearance: none;
+  background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.03));
+  backdrop-filter: blur(8px);
+  border-radius: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 0.65rem 1rem;
+  color: #082f2e;
+  font-family: "Inter", "Segoe UI", sans-serif;
+  font-weight: 500;
+}
+
+/* 🔢 Number input spinner buttons */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  opacity: 0.3;
+  height: auto;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* 🎚️ Range Slider */
+input[type="range"] {
+  width: 100%;
+  height: 6px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+  outline: none;
+  transition: background 0.3s ease-in-out;
+  accent-color: #02a554;
+}
+
+input[type="range"]:hover {
+  background: rgba(2, 165, 84, 0.2);
+}
+
+/* 🧪 Optional: Hide filename on file input */
 input[type="file"].hide-filename::before {
   content: none;
 }
+
+/* Ensure input and password fields have white text */
+  .form-control.icon-input,
+  .form-control.icon-input:focus {
+    color: #fff;
+    background-color: transparent;
+    border-color: rgba(255, 255, 255, 0.25);
+  }
+
+  .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .form-floating > label,
+  .form-floating > label i {
+    color: rgba(255, 255, 255, 0.8);
+  }
