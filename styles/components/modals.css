@@ -116,8 +116,11 @@
 /* ============================================= */
 
 .profile-edit-container {
-  background: linear-gradient(to bottom right, rgba(255,255,255,0.08), rgba(255,255,255,0.05));
-  backdrop-filter: blur(12px);
+  /*background: linear-gradient(to bottom right, rgba(255,255,255,0.08), rgba(255,255,255,0.05));*/
+  background: linear-gradient(to bottom right, rgba(242, 225, 215, 0.85), rgba(194, 170, 141, 0.85), rgba(67, 45, 20, 0.85));
+backdrop-filter: blur(10px);
+
+ 
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 1rem;
   padding: 2rem;
@@ -137,3 +140,109 @@
   text-align: center;
   margin-top: 2rem;
 }
+
+/* card-modal.css */
+
+.card-modal {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(14px) saturate(160%) contrast(115%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%) contrast(115%);
+  border-radius: 1.5rem;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  transition: all 0.4s ease;
+  color: #f4f4f4;
+}
+
+/* Header refinement */
+.card-modal .card-header {
+  background-color: transparent;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 1.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.card-modal .modal-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #f0f00f;;
+  letter-spacing: 0.3px;
+}
+
+/* Footer subtle separation */
+.card-modal .card-footer {
+  background-color: transparent;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+/* Input glow and form elements */
+.card-modal .form-control,
+.card-modal .form-select {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #f0f00f;
+  transition: all 0.3s ease;
+  border-radius: 0.75rem;
+}
+
+.card-modal .form-control:focus,
+.card-modal .form-select:focus {
+  border-color: #b1c4e0;
+  box-shadow: 0 0 0 0.15rem rgba(177, 196, 224, 0.25);
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+/* Labels and icons */
+.card-modal label {
+  color: #e0e0e0;
+  font-weight: 500;
+}
+
+.card-modal .floating-icon {
+  position: absolute;
+  top: 50%;
+  left: 1rem;
+  transform: translateY(-50%);
+  font-size: 1.1rem;
+  color: #cfcfcf;
+  pointer-events: none;
+}
+
+/* Password toggle icon */
+.card-modal .toggle-eye {
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  transform: translateY(-50%);
+  color: #ccc;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+/* Photo preview */
+#photoPreview {
+  border-radius: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  margin-top: 0.5rem;
+}
+
+/* Button */
+.card-modal .btn-primary {
+  background-color: #1a4c8b;
+  border-color: #1a4c8b;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  transition: all 0.3s ease;
+}
+
+.card-modal .btn-primary:hover {
+  background-color: #153c6d;
+  border-color: #153c6d;
+}
+
+/* Close button */
+.card-modal .btn-close {
+  filter: invert(1);
+}
+

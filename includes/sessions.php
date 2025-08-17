@@ -13,29 +13,32 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 function initializeSession(array $user): void {
     global $conn;
 
-    $_SESSION['user_id']     = $user['id'];
-    $_SESSION['username']    = $user['username'];
-    $_SESSION['email']       = $user['email'];
-    $_SESSION['role_id']     = $user['role_id'];
-    $_SESSION['role']        = getRoleName($user['role_id']);
-    $_SESSION['status']      = $user['status'];
-    $_SESSION['login_count'] = $user['login_count'];
+    $_SESSION['user_id']       = $user['id'];
+    $_SESSION['username']      = $user['username'];
+    $_SESSION['email']         = $user['email'];
+    $_SESSION['role_id']       = $user['role_id'];
+    $_SESSION['role']          = getRoleName($user['role_id']);
+    $_SESSION['status']        = $user['status'];
+    $_SESSION['login_count']   = $user['login_count'];
     $_SESSION['last_login_at'] = $user['last_login_at'];
 
-    // Profile photo path (with fallback)
-    $photoFilename = $user['photo'] ?? '';
-    $photoPath = $photoFilename && file_exists(BASE_PATH . 'core/uploads/photos/' . $photoFilename)
-        ? BASE_URL . 'core/uploads/photos/' . $photoFilename
-        : BASE_URL . 'core/uploads/photos/default.png';
-    $_SESSION['user_photo'] = $photoPath;
+    // ✅ Photo URL (consistent with DB field)
+    if (!empty($user['photo'])) {
+        // DB already stores: core/uploads/photos/filename...
+        $_SESSION['user_photo'] = asset($user['photo']);
+    } else {
+        // fallback placeholder
+        $_SESSION['user_photo'] = asset("core/uploads/photos/default.png");
+    }
 
-    // Load department and section names
+    // Department and section
     $_SESSION['department'] = getDepartmentName($user['department_id'] ?? null);
     $_SESSION['section']    = getSectionName($user['section_id'] ?? null);
 
-    // Cache permissions
+    // Permissions
     cacheUserPermissions();
 }
+
 
 /**
  * Retrieve department name from DB

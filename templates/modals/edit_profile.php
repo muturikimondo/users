@@ -1,128 +1,114 @@
 <?php
-// coop/templates/modals/edit_profile.php
+include_once __DIR__ . '/../../includes/config.php';
+include_once BASE_PATH . 'includes/db.php';
 
-$departments = [];
-$department_stmt = $conn->prepare("SELECT * FROM departments ORDER BY name ASC");
-$department_stmt->execute();
-$department_result = $department_stmt->get_result();
-if ($department_result && $department_result->num_rows > 0) {
-  while ($row = $department_result->fetch_assoc()) {
-    $departments[] = $row;
-  }
-}
+// Optionally load current user info for prepopulation
+$user = $_SESSION['user'] ?? []; // adjust based on your session structure
 
-$sections = [];
-$section_stmt = $conn->prepare("SELECT * FROM sections ORDER BY name ASC");
-$section_stmt->execute();
-$section_result = $section_stmt->get_result();
-if ($section_result && $section_result->num_rows > 0) {
-  while ($row = $section_result->fetch_assoc()) {
-    $sections[] = $row;
-  }
-}
+// Fetch departments (for static fallback or prepopulation)
+$stmt = $conn->query("SELECT id, name FROM departments ORDER BY name ASC");
+$departments = $stmt->fetch_all(MYSQLI_ASSOC);
 ?>
 
 <!-- Edit Profile Modal -->
-<div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content modal-glass border-0 rounded-4 shadow-lg">
+<div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content glassmorphic p-0 border-0">
 
-      <!-- Modal Header -->
-      <div class="modal-header modal-glass-header text-white rounded-top-4">
-        <h5 class="modal-title d-flex align-items-center gap-2" id="editProfileModalLabel">
-          <i class="bi bi-pencil-square"></i> Edit Profile
-        </h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      <div class="card card-glass shadow-lg rounded-4 border-0 overflow-hidden">
+
+        <div class="card-header bg-transparent border-0 px-4 pt-4 pb-0">
+          <h5 class="modal-title fw-bold text-white" id="editProfileLabel">Edit Profile</h5>
+          <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 mt-3 me-3" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <form id="editProfileForm" enctype="multipart/form-data" novalidate>
+          <div class="card-body pt-3 px-4">
+
+            <!-- Username -->
+            <div class="form-floating mb-3 position-relative">
+              <i class="bi bi-person-fill floating-icon"></i>
+              <input type="text" class="form-control icon-input" id="username" name="username"
+                     placeholder="Username" value="<?= htmlspecialchars($user['username'] ?? '') ?>" required>
+              <label for="username">Username</label>
+            </div>
+
+            <!-- Email -->
+            <div class="form-floating mb-3 position-relative">
+              <i class="bi bi-envelope-fill floating-icon"></i>
+              <input type="email" class="form-control icon-input" id="email" name="email"
+                     placeholder="Email Address" value="<?= htmlspecialchars($user['email'] ?? '') ?>" required>
+              <label for="email">Email</label>
+            </div>
+
+            <!-- Department -->
+            <div class="form-floating mb-3 position-relative">
+              <i class="bi bi-building floating-icon"></i>
+              <select id="department_id" name="department_id" class="form-select icon-input select2"
+                      data-placeholder="Select Department" required>
+                <option value="">Select Department</option>
+                <?php foreach ($departments as $dept): ?>
+                  <option value="<?= $dept['id'] ?>" <?= ($dept['id'] == ($user['department_id'] ?? '')) ? 'selected' : '' ?>>
+                    <?= htmlspecialchars($dept['name']) ?>
+                  </option>
+                <?php endforeach; ?>
+              </select>
+              <label for="department_id">Department</label>
+            </div>
+
+            <!-- Section -->
+            <div class="form-floating mb-3 position-relative">
+              <i class="bi bi-diagram-3-fill floating-icon"></i>
+              <select id="section_id" name="section_id" class="form-select icon-input select2"
+                      data-placeholder="Select Section" required>
+                <option value="">Select Section</option>
+                <!-- Sections should be populated dynamically via JS based on department -->
+              </select>
+              <label for="section_id">Section</label>
+            </div>
+
+            <!-- Change Password Toggle -->
+            <div class="form-check form-switch mb-3">
+              <input type="checkbox" class="form-check-input" id="changePasswordToggle">
+              <label class="form-check-label fw-semibold text-white" for="changePasswordToggle">Change Password</label>
+            </div>
+
+            <!-- Password Fields -->
+            <div id="passwordSection" class="d-none">
+              <div class="form-floating position-relative mb-3">
+                <input type="password" class="form-control icon-input" id="newPassword" name="password" placeholder="New Password">
+                <label for="newPassword">New Password</label>
+                <i class="bi bi-eye-fill floating-icon end-0 me-3 toggle-eye" data-target="newPassword" style="cursor:pointer;"></i>
+              </div>
+
+              <div class="form-floating position-relative mb-3">
+                <input type="password" class="form-control icon-input" id="confirmPassword" name="confirm_password" placeholder="Confirm Password">
+                <label for="confirmPassword">Confirm Password</label>
+                <i class="bi bi-eye-fill floating-icon end-0 me-3 toggle-eye" data-target="confirmPassword" style="cursor:pointer;"></i>
+              </div>
+            </div>
+
+            <!-- Photo Upload -->
+            <div class="mb-3">
+              <label for="photo" class="form-label text-white">Profile Photo</label>
+              <input type="file" class="form-control" id="photo" name="photo" accept="image/*">
+              <div class="mt-2">
+                <img id="photoPreview"
+                     src="<?= isset($user['photo']) ? htmlspecialchars($user['photo']) : '#' ?>"
+                     alt="Preview"
+                     class="img-thumbnail"
+                     style="max-width: 150px; <?= isset($user['photo']) ? '' : 'display: none;' ?>">
+              </div>
+            </div>
+
+          </div>
+
+          <div class="card-footer border-0 bg-transparent px-4 pb-4">
+            <button type="submit" class="btn btn-primary w-100 fw-semibold">Update Profile</button>
+          </div>
+        </form>
+
       </div>
-
-      <!-- Modal Form -->
-      <form id="editProfileForm" enctype="multipart/form-data" novalidate>
-  <div class="modal-body profile-edit-container">
-
-    <!-- Username -->
-    <div class="form-floating position-relative mb-3">
-      <input type="text" class="form-control icon-input" id="username" name="username" value="<?= htmlspecialchars($user['username']) ?>" required>
-      <label for="username"><i class="bi bi-person floating-icon"></i> Username</label>
     </div>
-
-    <!-- Email -->
-    <div class="form-floating position-relative mb-3">
-      <input type="email" class="form-control icon-input" id="email" name="email" value="<?= htmlspecialchars($user['email']) ?>" required>
-      <label for="email"><i class="bi bi-envelope floating-icon"></i> Email address</label>
-    </div>
-
-    <!-- Department -->
-    <div class="form-floating position-relative mb-3">
-      <select class="form-select select2" id="department_id" name="department_id" data-placeholder="Select department" required>
-        <option></option>
-        <?php foreach ($departments as $department): ?>
-          <option value="<?= (int) $department['id'] ?>">
-            <?= htmlspecialchars($department['id']) ?>
-          </option>
-        <?php endforeach; ?>
-      </select>
-      <label for="department_id"><i class="bi bi-building floating-icon"></i> Department</label>
-    </div>
-
-    <!-- Section -->
-    <div class="form-floating position-relative mb-3">
-      <select class="form-select select2" id="section_id" name="section_id" data-placeholder="Select section" required>
-  <option></option> <!-- Sections will be populated dynamically -->
-</select>
-
-      <label for="section_id"><i class="bi bi-diagram-3 floating-icon"></i> Section</label>
-    </div>
-
-    <!-- Profile Photo -->
-    <div class="mb-4">
-      <label for="photo" class="form-label fw-semibold">Profile Photo</label>
-      <div class="position-relative d-inline-block w-100">
-        <img id="photoPreview"
-             src="<?= asset($user['photo'] ?? 'core/uploads/photos/default.png') ?>"
-             class="rounded-circle shadow-sm border border-2 d-block mx-auto"
-             style="width: 100px; height: 100px; object-fit: cover;"
-             alt="Preview">
-        <input type="file" id="photo" name="photo" accept="image/*" class="form-control glass-file mt-2 w-100" style="max-width: 300px; display: block; margin: 10px auto 0;" />
-        <div class="form-text small text-center">Max 2MB. JPG, PNG supported.</div>
-      </div>
-    </div>
-
-    <!-- Change Password Switch -->
-    <div class="form-check form-switch mb-3 profile-switch-group">
-      <input class="form-check-input profile-switch" type="checkbox" role="switch" id="togglePassword">
-      <label class="form-check-label profile-switch-label" for="togglePassword">Change Password</label>
-    </div>
-
-    <!-- Password Fields -->
-    <!-- Password Fields -->
-<div class="row g-3 mb-4" id="passwordFields" style="display: none;">
-  <div class="col-md-6 form-floating position-relative">
-    <input type="password" class="form-control icon-input toggleable-password" id="password" name="password">
-    <label for="password"><i class="bi bi-key floating-icon"></i> New Password</label>
-    <i class="bi bi-eye-fill toggle-password-eye position-absolute top-50 end-0 translate-middle-y me-3" data-toggle="#password"></i>
-  </div>
-  <div class="col-md-6 form-floating position-relative">
-    <input type="password" class="form-control icon-input toggleable-password" id="confirm_password" name="confirm_password">
-    <label for="confirm_password"><i class="bi bi-key-fill floating-icon"></i> Confirm Password</label>
-    <i class="bi bi-eye-fill toggle-password-eye position-absolute top-50 end-0 translate-middle-y me-3" data-toggle="#confirm_password"></i>
   </div>
 </div>
-
-  </div>
-
-  <!-- Modal Footer -->
-  <div class="modal-footer border-top-0 d-flex justify-content-end gap-2">
-    <button type="submit" class="btn btn-glass-success px-4 rounded-pill d-flex align-items-center gap-2">
-      <i class="bi bi-check-circle-fill"></i> Save Changes
-    </button>
-    <button type="button" class="btn btn-outline-secondary px-4 rounded-pill" data-bs-dismiss="modal">
-      Cancel
-    </button>
-  </div>
-</form>
-
-
-    </div>
-  </div>
-</div>
-

@@ -181,3 +181,23 @@ input[type="file"].hide-filename::before {
   .form-floating > label i {
     color: rgba(255, 255, 255, 0.8);
   }
+
+  /* Glassmorphic input group */
+.glass-input {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+/* Password feedback text */
+#passwordStrength, #passwordMatch {
+  font-size: 0.85rem;
+}
+
+.password-weak { color: #dc3545; }     /* red */
+.password-medium { color: #ffc107; }   /* amber */
+.password-strong { color: #28a745; }   /* green */
+.password-match { color: #28a745; }
+.password-mismatch { color: #dc3545; }
+

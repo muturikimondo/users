@@ -14,17 +14,24 @@ $total = $totalQuery->fetch_assoc()['total'] ?? 0;
 $totalPages = ceil($total / $limit);
 
 // Fetch paginated results
-$stmt = $conn->prepare("SELECT id, username, email, photo, status FROM users 
+$stmt = $conn->prepare("SELECT id, username, email, photo, status 
+                        FROM users 
                         WHERE status = 'pending' AND is_disabled = 0 
-                        ORDER BY created_at DESC LIMIT ? OFFSET ?");
+                        ORDER BY created_at DESC 
+                        LIMIT ? OFFSET ?");
 $stmt->bind_param("ii", $limit, $offset);
 $stmt->execute();
 $result = $stmt->get_result();
 
 $users = [];
 while ($row = $result->fetch_assoc()) {
-    $row['photo'] = $row['photo'] ?: 'user-placeholder.webp';
-    $row['photo_url'] = asset("core/uploads/photos/" . $row['photo']);
+    if (!empty($row['photo'])) {
+        // Photo already stored as "core/uploads/photos/filename..."
+        $row['photo_url'] = asset($row['photo']);
+    } else {
+        // Use placeholder if no photo
+        $row['photo_url'] = asset("core/uploads/photos/user-placeholder.webp");
+    }
     $users[] = $row;
 }
 

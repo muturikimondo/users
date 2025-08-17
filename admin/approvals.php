@@ -1,65 +1,84 @@
 <?php
+/**
+ * Pending Approvals Page
+ * ----------------------
+ * Displays new user registrations awaiting approval.
+ * Provides responsive layout with sidebar, table, and modals.
+ */
 
-// Load core config and database connection
+// Bootstrap core configuration & database
 require_once __DIR__ . '/../includes/config.php';
 require_once BASE_PATH . 'includes/db.php';
 
-// Page-specific variables
-$pageTitle = "Pending Approvals";
-$pageScripts[] = 'admin/js/index.js'; // JS module to load for this page
+// Page metadata
+$pageTitle    = "Pending Approvals";
+$pageScripts  = ['admin/js/index.js']; // Per-page scripts
 
-// Include the global header template
+// Global header
 include BASE_PATH . 'templates/header.php';
 ?>
 
-<!-- Sidebar Toggle Button for Small Screens -->
-<button class="btn btn-outline-primary d-md-none m-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarOffcanvas" aria-controls="sidebarOffcanvas">
-  <i class="bi bi-list"></i> Menu
-</button>
-
+<!-- =========================
+     Layout Wrapper
+========================= -->
 <div class="d-flex flex-column flex-md-row min-vh-100">
 
-  <!-- Sidebar -->
-  <aside class="offcanvas-md offcanvas-start sidebar-glass p-3 shadow-lg rounded-end-4" tabindex="-1" id="sidebarOffcanvas">
+  <!-- ========== Sidebar ========== -->
+  <aside 
+    class="offcanvas-md offcanvas-start sidebar-glass p-3 shadow-lg rounded-end-4" 
+    tabindex="-1" 
+    id="sidebarOffcanvas"
+  >
+    <!-- Mobile Header -->
     <div class="offcanvas-header d-md-none">
       <h5 class="offcanvas-title">Navigation</h5>
-      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"></button>
+      <button 
+        type="button" 
+        class="btn-close text-reset" 
+        data-bs-dismiss="offcanvas" 
+        aria-label="Close">
+      </button>
     </div>
+
+    <!-- Sidebar Content -->
     <div class="offcanvas-body p-0">
       <?php include BASE_PATH . 'templates/sidebar.php'; ?>
     </div>
   </aside>
 
-  <!-- Main Content -->
+  <!-- ========== Main Content ========== -->
   <div class="flex-grow-1 d-flex flex-column">
+
     <main class="flex-grow-1 container-fluid mt-4">
 
+      <!-- Page Header -->
       <div class="row justify-content-center">
         <div class="col-md-8">
           <?php
             include BASE_PATH . 'templates/components/page_section_header.php';
             renderSectionHeader([
-              'icon' => 'bi-hourglass-split',
-              'title' => 'Pending User Approvals',
-              'badge' => 'Approval Queue',
+              'icon'     => 'bi-hourglass-split',
+              'title'    => 'Pending User Approvals',
+              'badge'    => 'Approval Queue',
               'subtitle' => 'Review and take action on new user registrations.'
             ]);
           ?>
         </div>
       </div>
 
-      <div class="row justify-content-center">
+      <!-- Pending Users Table -->
+      <div class="row justify-content-center mt-3">
         <div class="col-md-8">
-          <div class="card card-glass p-4 mt-3">
+          <div class="card card-glass p-4">
             <div class="table-responsive">
               <table class="table table-hover align-middle mb-0">
                 <thead class="table-gradient-header rounded-top shadow-sm">
                   <tr>
-                    <th>Photo</th>
-                    <th>Username</th>
-                    <th>Email</th>
-                    <th>Status</th>
-                    <th class="text-center">Actions</th>
+                    <th scope="col">Photo</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Status</th>
+                    <th scope="col" class="text-center">Actions</th>
                   </tr>
                 </thead>
                 <tbody id="pendingUsersTableBody">
@@ -70,6 +89,7 @@ include BASE_PATH . 'templates/header.php';
           </div>
         </div>
 
+        <!-- Pagination -->
         <div class="d-flex justify-content-center mt-3">
           <nav>
             <ul class="pagination" id="paginationControls"></ul>
@@ -86,20 +106,37 @@ include BASE_PATH . 'templates/header.php';
   </div>
 </div>
 
+<!-- =========================
+     Modals & Notifications
+========================= -->
+
 <!-- Approve Modal -->
 <?php include BASE_PATH . 'templates/modals/approve_user_modal.php'; ?>
 
-<!-- Toast Notification -->
+<!-- Toast Notifications -->
 <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1100;">
-  <div id="approvalToast" class="toast align-items-center text-white border-0" role="alert" aria-live="assertive" aria-atomic="true">
+  <div 
+    id="approvalToast" 
+    class="toast align-items-center text-white border-0" 
+    role="alert" 
+    aria-live="assertive" 
+    aria-atomic="true"
+  >
     <div class="d-flex">
       <div class="toast-body" id="approvalToastMsg">Processing...</div>
-      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      <button 
+        type="button" 
+        class="btn-close btn-close-white me-2 m-auto" 
+        data-bs-dismiss="toast" 
+        aria-label="Close">
+      </button>
     </div>
   </div>
 </div>
 
-
-
-<!-- App Scripts (module-based, cache-busted) -->
-<script type="module" src="<?= asset('admin/js/index.js') ?>"></script>
+<!-- =========================
+     Scripts
+========================= -->
+<?php foreach ($pageScripts as $script): ?>
+  <script type="module" src="<?= asset($script) ?>"></script>
+<?php endforeach; ?>

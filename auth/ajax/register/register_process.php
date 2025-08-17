@@ -1,5 +1,4 @@
 <?php
-
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -49,12 +48,12 @@ $stmt->close();
 // Generate verification token
 $token = bin2hex(random_bytes(16));
 
-// Set default values
+// Set defaults
 $role_id     = 4;
 $status      = 'pending';
 $is_disabled = 0;
 $now         = date('Y-m-d H:i:s');
-$photoName   = 'default.jpg'; // fallback image
+$photoName   = 'core/uploads/photos/default.jpg'; // fallback path
 
 // Handle image upload
 if (!empty($_FILES['photo']['tmp_name']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
@@ -77,8 +76,10 @@ if (!empty($_FILES['photo']['tmp_name']) && $_FILES['photo']['error'] === UPLOAD
             $uploadDir = BASE_PATH . 'core/uploads/photos/';
             if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
 
-            $slug = strtolower(preg_replace('/[^a-z0-9]+/i', '-', $username));
-            $filename = $slug . '-' . time() . '.' . $ext;
+            // Generate filename: username_uniqueid.ext
+            $safeUsername = preg_replace('/[^a-zA-Z0-9_-]/', '', $username);
+            $uniqueId = uniqid();
+            $filename = $safeUsername . '_' . $uniqueId . '.' . $ext;
             $path = $uploadDir . $filename;
 
             // Resize to 300x300
@@ -93,7 +94,8 @@ if (!empty($_FILES['photo']['tmp_name']) && $_FILES['photo']['error'] === UPLOAD
             }
 
             if ($saved) {
-                $photoName = $filename;
+                // Store relative path in DB
+                $photoName = 'core/uploads/photos/' . $filename;
             }
 
             imagedestroy($src);
